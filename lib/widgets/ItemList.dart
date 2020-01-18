@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_app_001/widgets/ItemDetail.dart';
 
 class ItemList extends StatefulWidget {
   @override
@@ -15,34 +16,43 @@ class _ItemListState extends State<ItemList> {
     final itemWidgets = <Widget>[];
     for (final ii in _itemInfos) {
       itemWidgets.add(
-          //Text('테스트 $i', style: TextStyle(fontSize: 90.0),)
-        Row(
-          children: <Widget>[
-            // image
-            Container(
-              height: 150.0,
-              margin: EdgeInsets.only(right:20.0),
-              child: ii.image,
-            ),
-
-            // text
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-
-                  // title
-                  Text(ii.title, style: TextStyle(fontSize: 18.0),),
-
-                  // description
-                  Text(ii.description, style: TextStyle(fontSize: 15.0, color: Colors.black54),),
-
-                  // price
-                  Text(ii.price, style: TextStyle(fontSize: 15.0, color: Colors.orange),)
-                ],
+        //Text('테스트 $i', style: TextStyle(fontSize: 90.0),)
+        FlatButton(
+          onPressed: () async {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ItemDetail(),
+              ),);
+          },
+          child: Row(
+            children: <Widget>[
+              // image
+              Container(
+                height: 150.0,
+                margin: EdgeInsets.only(right:20.0),
+                child: ii.image,
               ),
-            )
-          ],
+
+              // text
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+
+                    // title
+                    Text(ii.title, style: TextStyle(fontSize: 18.0),),
+
+                    // description
+                    Text(ii.description, style: TextStyle(fontSize: 15.0, color: Colors.black54),),
+
+                    // price
+                    Text(ii.price, style: TextStyle(fontSize: 15.0, color: Colors.orange),)
+                  ],
+                ),
+              )
+            ],
+          ),
         )
       );
     }

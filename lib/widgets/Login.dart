@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'MainWidget.dart';
+
 
 // short: stf
 class Login extends StatefulWidget {
@@ -55,7 +57,11 @@ class _LoginState extends State<Login> {
                       child: Text('sign in'),
                       onPressed: () async {
                         await Navigator.pushNamed(context, '/main');
-                        print("테스트");
+                        //print("테스트");
+//                        await Navigator.push(
+//                            context,
+//                            MaterialPageRoute(builder: (context) => MainWidget(),)
+//                        );
                       },
                     ),
                     Container(height: 10,),
