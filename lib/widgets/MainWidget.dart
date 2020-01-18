@@ -3,6 +3,8 @@ import 'package:test_app_001/widgets/ItemList.dart';
 import 'package:test_app_001/widgets/Profile.dart';
 import 'package:test_app_001/utils/Global.dart';
 
+import 'Cart.dart';
+
 class MainWidget extends StatefulWidget {
   @override
   _MainWidgetState createState() => _MainWidgetState();
@@ -45,10 +47,7 @@ class _MainWidgetState extends State<MainWidget> {
           body: TabBarView(
             children: <Widget>[
               ItemList(),
-              Text(
-                'Cart 입니다.',
-                style: TextStyle(fontSize: 50),
-              ),
+              Cart(),
               Profile()
             ],
           )

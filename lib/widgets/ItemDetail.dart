@@ -12,9 +12,30 @@ class _ItemDetailState extends State<ItemDetail> {
 
   @override
   Widget build(BuildContext context) {
-    _initItemInfo ();
+    _initItemInfo();
 
-    Container detailContents = Container(
+    var image = Container(
+      margin: EdgeInsets.all(30.0),
+      width: double.infinity,
+      child: _itemInfo.image,
+    );
+
+    var title = Text(
+      _itemInfo.title,
+      style: TextStyle(fontSize: 22.0),
+    );
+
+    var description = Text(
+        _itemInfo.description,
+        style: TextStyle(fontSize: 15.0, color: Colors.black54)
+    );
+
+    var price = Text(
+      _itemInfo.price,
+      style: TextStyle(fontSize: 18.0, color: Colors.orange),
+    );
+
+    var detailContents = Container(
       margin: EdgeInsets.all(30.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +48,7 @@ class _ItemDetailState extends State<ItemDetail> {
       ),
     );
 
-    Container cart = Container(
+    var cart = Container(
       padding: EdgeInsets.only(left: 30, right: 30),
       child: Row(
         children: <Widget>[
@@ -42,56 +63,74 @@ class _ItemDetailState extends State<ItemDetail> {
               keyboardType: TextInputType.numberWithOptions(),
               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
             ),
-          )
+          ),
+
+          // 수량
+          Text('개', style: TextStyle(fontSize: 16.0),),
+
+          Expanded(
+            child: SizedBox(),
+          ),
+
+          // price
+          Text(_itemInfo.price,
+            style: TextStyle(fontSize: 18, color: Colors.orange),)
         ],
       ),
     );
+
+    var addToCartButton = Container(
+      width: double.infinity,
+      margin: EdgeInsets.fromLTRB(30, 5, 30, 8),
+      child: FlatButton(
+        color: Colors.blue,
+        textColor: Colors.white,
+        child: Text('장바구니에 넣기', style: TextStyle(fontSize: 16.0),),
+        onPressed: () {
+
+        },
+        padding: EdgeInsets.only(top: 10, bottom: 10),
+      ),
+    );
+
 
     return Scaffold(
         appBar: AppBar(
           title: Text("상품 상세"),
         ),
-        body: SingleChildScrollView(
-          child: Column(
+        body: Column(
             children: <Widget>[
-              // image
-              Container(
-                margin: EdgeInsets.all(30.0),
-                width: double.infinity,
-                child: _itemInfo.image,
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      image,
+                      title,
+                      SizedBox(height: 10.0,),
+                      description,
+                      SizedBox(height: 10.0,),
+                      price,
+                      SizedBox(height: 10.0,),
+                      detailContents,
+                    ],
+                  ),
+                ),
               ),
-
-              // title
-              Text(
-                _itemInfo.title,
-                style: TextStyle(fontSize: 22.0),
-              ),
-
-              SizedBox(height: 10.0,),
-
-              // description
-              Text(
-                _itemInfo.description,
-                style: TextStyle(fontSize: 15.0, color: Colors.black54)
-              ),
-
-              SizedBox(height: 10.0,),
-
-              // price
-              Text(
-                _itemInfo.price,
-                style: TextStyle(fontSize: 18.0, color: Colors.orange),
-              ),
-
-              SizedBox(height: 10.0,),
-
-              // detail contents
-              detailContents,
-
-              // cart
-              cart
-            ],
-          ),
+              Column(
+                children: <Widget>[
+                  Container(
+                    height: 10.0,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(color: Colors.black54),
+                      )
+                    ),
+                  ),
+                  cart,
+                  addToCartButton,
+                ],
+              )
+            ]
         )
     );
   }
