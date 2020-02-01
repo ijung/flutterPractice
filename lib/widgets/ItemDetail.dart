@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+enum ItemDetailResult {
+  BACK,
+  ADD_TO_CART
+}
+
 class ItemDetail extends StatefulWidget {
   @override
   _ItemDetailState createState() => _ItemDetailState();
@@ -8,11 +13,42 @@ class ItemDetail extends StatefulWidget {
 
 class _ItemDetailState extends State<ItemDetail> {
   _ItemInfo _itemInfo;
+  final _countController = TextEditingController(text: '1');
+  int _totalPrice;
+  bool _isAddCArtButtonDisable = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _countController.addListener(() {
+      print(_countController.text);
+      var itemCount = getItemCount(_countController.text);
+
+      setState(() {
+        _totalPrice = itemCount * _itemInfo.price;
+        _isAddCArtButtonDisable = itemCount == 0;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _countController.dispose();
+  }
+
+  int getItemCount(String cnt)
+  {
+    if(cnt == null || cnt.isEmpty) return 0;
+    return int.parse(_countController.text);
+  }
 
 
   @override
   Widget build(BuildContext context) {
     _initItemInfo();
+    _totalPrice = getItemCount(_countController.text) * _itemInfo.price;
 
     var image = Container(
       margin: EdgeInsets.all(30.0),
@@ -31,7 +67,7 @@ class _ItemDetailState extends State<ItemDetail> {
     );
 
     var price = Text(
-      _itemInfo.price,
+      '$_totalPrice 원',
       style: TextStyle(fontSize: 18.0, color: Colors.orange),
     );
 
@@ -62,6 +98,7 @@ class _ItemDetailState extends State<ItemDetail> {
               textAlign: TextAlign.center,
               keyboardType: TextInputType.numberWithOptions(),
               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+              controller: _countController,
             ),
           ),
 
@@ -73,7 +110,7 @@ class _ItemDetailState extends State<ItemDetail> {
           ),
 
           // price
-          Text(_itemInfo.price,
+          Text('$_totalPrice 원',
             style: TextStyle(fontSize: 18, color: Colors.orange),)
         ],
       ),
@@ -86,9 +123,11 @@ class _ItemDetailState extends State<ItemDetail> {
         color: Colors.blue,
         textColor: Colors.white,
         child: Text('장바구니에 넣기', style: TextStyle(fontSize: 16.0),),
-        onPressed: () {
+        onPressed: _isAddCArtButtonDisable ? null : () {
+          Navigator.pop(context, ItemDetailResult.ADD_TO_CART);
 
         },
+
         padding: EdgeInsets.only(top: 10, bottom: 10),
       ),
     );
@@ -143,7 +182,7 @@ class _ItemDetailState extends State<ItemDetail> {
       Image.network('http://thumbnail.10x10.co.kr/webimage/image/basic600/137/B001377515.jpg'),
       '뼈다귀 모양 베개',
       '우리 귀여운 강아지에게 꿀잠을!!',
-      '10,000원',
+      10000,
       <String>[
         '아이에게 꿀잠을 선사할 수 있는 베개입니다.',
         '뼈다귀 모양이므로 강아지에게 뼈다귀를 뜯는 꿈을 꿀 수 있도록 합니다.',
@@ -163,7 +202,7 @@ class _ItemInfo {
   Image image;
   String title;
   String description;
-  String price;
+  int price;
   List<String> detailContents;
 
   _ItemInfo(

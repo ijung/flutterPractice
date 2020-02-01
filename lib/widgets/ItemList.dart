@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:test_app_001/widgets/ItemDetail.dart';
 
 class ItemList extends StatefulWidget {
+
+
   @override
   _ItemListState createState() => _ItemListState();
+
+  Function onAddToCart;
+
+  ItemList({Key key, @required this.onAddToCart}):super(key: key) {
+    print("==========================================================");
+    print(key);
+  }
 }
 
 class _ItemListState extends State<ItemList> {
@@ -19,11 +28,15 @@ class _ItemListState extends State<ItemList> {
         //Text('테스트 $i', style: TextStyle(fontSize: 90.0),)
         FlatButton(
           onPressed: () async {
-            await Navigator.push(
+            final result = await Navigator.push<ItemDetailResult>(
               context,
               MaterialPageRoute(
                 builder: (context) => ItemDetail(),
               ),);
+
+            if(result == ItemDetailResult.ADD_TO_CART){
+              widget.onAddToCart();
+            }
           },
           child: Row(
             children: <Widget>[

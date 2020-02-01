@@ -56,6 +56,10 @@ class _LoginState extends State<Login> {
                     FlatButton(
                       child: Text('sign in'),
                       onPressed: () async {
+//                        final res = await http.get('http://1.234.4.139:3300/api/items');
+//                        print('statusCode: ${res.statusCode}');
+//                        print('header: ${res.headers}');
+//                        print('body: ${res.body}');
                         await Navigator.pushNamed(context, '/main');
                         //print("테스트");
 //                        await Navigator.push(
@@ -67,7 +71,8 @@ class _LoginState extends State<Login> {
                     Container(height: 10,),
                     FlatButton(
                       child: Text('sign up'),
-                      onPressed: () {
+                      onPressed: () async {
+                        await Navigator.pushNamed(context, '/sign-up');
                       },
                     ),
                   ],
