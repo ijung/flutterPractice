@@ -186,7 +186,6 @@ class _CartState extends State<Cart> {
               textColor: Colors.white,
               child: Text('구매하기', style: TextStyle(fontSize: 16)),
               onPressed: () {
-
               },
             ),
           ),
